@@ -1,0 +1,261 @@
+# =============================================================================
+# GitHub Actions CI Pipeline — Selenium BDD Framework
+# =============================================================================
+#
+# This workflow automates the build, test, and reporting lifecycle for the
+# Selenium BDD framework on every push and pull request to the main branch.
+#
+# WHAT THIS PIPELINE DOES:
+#   1. Checks out the repository
+#   2. Sets up Java 17 (Eclipse Temurin)
+#   3. Caches Maven dependencies for faster builds
+#   4. Compiles the framework
+#   5. Executes the Cucumber test suite in headless Chrome
+#   6. Publishes the Allure report as a GitHub Pages artifact
+#   7. Uploads test results and screenshots as build artifacts
+#
+# SECRETS REQUIRED:
+#   TEST_DATA_SECRET_KEY — the AES encryption key for test data decryption.
+#   Add it in: GitHub Repository → Settings → Secrets and variables
+#   → Actions → New repository secret
+#
+# TRIGGERING SPECIFIC SUITES:
+#   The workflow can be triggered manually via workflow_dispatch with a
+#   custom tag expression. Go to Actions → CI Pipeline → Run workflow
+#   and enter the desired tag (e.g. @sanity, @regression, @TC001).
+# =============================================================================
+
+name: CI Pipeline
+
+on:
+  # Trigger on push to main and develop branches
+  push:
+    branches:
+      - main
+      - develop
+
+  # Trigger on pull requests targeting main
+  pull_request:
+    branches:
+      - main
+
+  # Allow manual triggering from the GitHub Actions UI
+  # with optional tag override
+  workflow_dispatch:
+    inputs:
+      cucumber_tags:
+        description: 'Cucumber tag expression (e.g. @sanity, @regression, @TC001)'
+        required: false
+        default: '@regression or @sanity'
+      browser:
+        description: 'Browser to run tests against'
+        required: false
+        default: 'chrome'
+        type: choice
+        options:
+          - chrome
+          - firefox
+
+# =============================================================================
+# ENVIRONMENT VARIABLES
+# Available to all jobs and steps in this workflow.
+# =============================================================================
+env:
+  JAVA_VERSION: '17'
+  JAVA_DISTRIBUTION: 'temurin'
+  MAVEN_OPTS: '-Xmx1024m -XX:+TieredCompilation -XX:TieredStopAtLevel=1'
+
+# =============================================================================
+# JOBS
+# =============================================================================
+jobs:
+
+  # ===========================================================================
+  # JOB: test
+  # Builds and executes the full test suite on Ubuntu Linux.
+  # Ubuntu is used because it is the most common CI environment and Chrome
+  # headless runs reliably on it without additional display configuration.
+  # ===========================================================================
+  test:
+    name: Run Cucumber Test Suite
+    runs-on: ubuntu-latest
+
+    # =========================================================================
+    # STRATEGY
+    # Matrix builds allow the same job to run against multiple configurations
+    # simultaneously. Here we run against Chrome by default. Uncomment the
+    # firefox entry to enable cross-browser testing in parallel.
+    # =========================================================================
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [chrome]
+        # browser: [chrome, firefox]  # Uncomment for cross-browser matrix
+
+    steps:
+
+      # -----------------------------------------------------------------------
+      # STEP 1: Checkout
+      # Clones the repository onto the GitHub Actions runner.
+      # fetch-depth: 0 fetches full git history, required for some reporting tools.
+      # -----------------------------------------------------------------------
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # -----------------------------------------------------------------------
+      # STEP 2: Set up Java 17
+      # Uses Eclipse Temurin (formerly AdoptOpenJDK) — the same distribution
+      # used locally. Consistency between local and CI Java versions prevents
+      # "works on my machine" issues.
+      # -----------------------------------------------------------------------
+      - name: Set up Java ${{ env.JAVA_VERSION }}
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: ${{ env.JAVA_DISTRIBUTION }}
+          cache: maven
+
+      # -----------------------------------------------------------------------
+      # STEP 3: Cache Maven dependencies
+      # Caches the local Maven repository between runs. On a cache hit,
+      # Maven skips downloading dependencies entirely — reducing build time
+      # from several minutes to seconds on subsequent runs.
+      # The cache key includes the pom.xml hash so the cache is invalidated
+      # automatically whenever dependencies change.
+      # -----------------------------------------------------------------------
+      - name: Cache Maven dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
+      # -----------------------------------------------------------------------
+      # STEP 4: Install Chrome
+      # GitHub Actions ubuntu-latest runners include Chrome by default.
+      # This step explicitly ensures the latest stable version is installed
+      # and outputs the version for debugging purposes.
+      # -----------------------------------------------------------------------
+      - name: Verify Chrome installation
+        run: |
+          google-chrome --version
+          echo "Chrome is ready for headless testing"
+
+      # -----------------------------------------------------------------------
+      # STEP 5: Compile framework
+      # Compiles all Java source files and verifies there are no compilation
+      # errors before attempting to run tests. Failing fast at compile time
+      # saves time compared to discovering compilation errors mid-test-run.
+      # -----------------------------------------------------------------------
+      - name: Compile framework
+        run: mvn test-compile --no-transfer-progress
+
+      # -----------------------------------------------------------------------
+      # STEP 6: Run test suite
+      # Executes the Cucumber scenarios via Maven Surefire.
+      #
+      # Key flags:
+      #   --no-transfer-progress : suppresses verbose Maven download output
+      #   -Dcucumber.filter.tags : overrides tags from RunCukesTest.java
+      #   -Dbrowser              : sets the browser via config.properties
+      #   -Dheadless=true        : always headless in CI (no display available)
+      #
+      # The TEST_DATA_SECRET_KEY is injected from GitHub Secrets — it is
+      # never visible in logs or stored in the repository.
+      # -----------------------------------------------------------------------
+      - name: Run test suite
+        env:
+          TEST_DATA_SECRET_KEY: ${{ secrets.TEST_DATA_SECRET_KEY }}
+        run: |
+          mvn test \
+            --no-transfer-progress \
+            -Dcucumber.filter.tags="${{ github.event.inputs.cucumber_tags || '@regression or @sanity' }}" \
+            -Dbrowser=${{ matrix.browser }} \
+            -Dheadless=true \
+            -Dallure.results.directory=target/allure-results
+
+      # -----------------------------------------------------------------------
+      # STEP 7: Upload Allure results
+      # Uploads the raw Allure result files as a build artifact.
+      # These are used by the separate reporting job to generate the
+      # final HTML report. Always runs — even if tests fail — so we
+      # always have results to report on.
+      # -----------------------------------------------------------------------
+      - name: Upload Allure results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-results-${{ matrix.browser }}
+          path: target/allure-results
+          retention-days: 30
+
+      # -----------------------------------------------------------------------
+      # STEP 8: Upload Cucumber reports
+      # Uploads the Cucumber HTML and JSON reports as build artifacts.
+      # Always runs regardless of test outcome.
+      # -----------------------------------------------------------------------
+      - name: Upload Cucumber reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cucumber-reports-${{ matrix.browser }}
+          path: target/cucumber-reports
+          retention-days: 30
+
+      # -----------------------------------------------------------------------
+      # STEP 9: Upload failure screenshots
+      # Uploads any screenshots captured on test failure.
+      # Only runs if tests failed — no screenshots means no failures.
+      # -----------------------------------------------------------------------
+      - name: Upload failure screenshots
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: failure-screenshots-${{ matrix.browser }}
+          path: target/screenshots
+          retention-days: 7
+
+      # -----------------------------------------------------------------------
+      # STEP 10: Generate and publish Allure report
+      # Generates the final interactive HTML Allure report and publishes
+      # it as a GitHub Pages artifact. The report is accessible from
+      # the Actions run summary page after the job completes.
+      # Always runs so the report is available even when tests fail.
+      # -----------------------------------------------------------------------
+      - name: Generate Allure report
+        if: always()
+        uses: simple-elf/allure-report-action@master
+        with:
+          allure_results: target/allure-results
+          allure_report: target/allure-report
+          allure_history: allure-history
+          keep_reports: 20
+
+      - name: Publish Allure report to GitHub Pages
+        if: always()
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: target/allure-report
+
+      # -----------------------------------------------------------------------
+      # STEP 11: Output test summary
+      # Prints a summary of the pipeline run to the Actions console.
+      # Useful for a quick pass/fail overview without opening the full report.
+      # -----------------------------------------------------------------------
+      - name: Output pipeline summary
+        if: always()
+        run: |
+          echo "================================================="
+          echo "  CI PIPELINE COMPLETE"
+          echo "================================================="
+          echo "  Branch  : ${{ github.ref_name }}"
+          echo "  Commit  : ${{ github.sha }}"
+          echo "  Browser : ${{ matrix.browser }}"
+          echo "  Tags    : ${{ github.event.inputs.cucumber_tags || '@regression or @sanity' }}"
+          echo "  Status  : ${{ job.status }}"
+          echo "================================================="

@@ -1,0 +1,428 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+         http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.andrewcummins.framework</groupId>
+  <artifactId>selenium-bdd-framework</artifactId>
+  <version>1.0.0</version>
+  <packaging>jar</packaging>
+
+  <name>Selenium BDD Framework</name>
+  <description>
+    Enterprise-grade BDD test automation framework built with
+    Selenium, Cucumber, TestNG, and PicoContainer. Designed for
+    UI, API, and Performance testing against public demo applications.
+  </description>
+
+  <!--
+      ============================================================
+      PROPERTIES
+      ============================================================
+      Centralising version numbers here means you only ever need
+      to update a dependency version in ONE place, rather than
+      hunting through the entire pom. This is considered best
+      practice in any professional Maven project.
+      ============================================================
+  -->
+  <properties>
+
+    <!-- Java version — 11 is the most widely supported LTS
+         version across enterprise CI/CD environments -->
+    <java.version>17</java.version>
+    <maven.compiler.source>${java.version}</maven.compiler.source>
+    <maven.compiler.target>${java.version}</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+    <!-- Selenium — 4.x introduced relative locators, CDP support,
+         and a cleaner WebDriver manager API -->
+    <selenium.version>4.18.1</selenium.version>
+
+    <!-- WebDriverManager — automatically downloads and configures
+         the correct browser driver binary. No more manual
+         ChromeDriver version matching -->
+    <webdrivermanager.version>5.7.0</webdrivermanager.version>
+
+    <!-- Cucumber — the BDD engine. All three modules below must
+         share the exact same version to avoid runtime conflicts -->
+    <cucumber.version>7.15.0</cucumber.version>
+
+    <!-- TestNG — our test runner. Works alongside Cucumber via
+         the cucumber-testng module -->
+    <testng.version>7.9.0</testng.version>
+
+    <!-- PicoContainer — lightweight dependency injection for
+         sharing state (driver, user, config) between step
+         definition classes without static variables -->
+    <picocontainer.version>2.15</picocontainer.version>
+
+    <!-- REST Assured — fluent API testing library for Java.
+         Industry standard for API test automation -->
+    <restassured.version>5.4.0</restassured.version>
+
+    <!-- Jackson — JSON serialisation/deserialisation library.
+         Used to read our encrypted test data files -->
+    <jackson.version>2.16.1</jackson.version>
+
+    <!-- Allure — the reporting framework. Produces rich, visual
+         HTML reports with steps, screenshots, and history -->
+    <allure.version>2.25.0</allure.version>
+    <allure.maven.version>2.12.0</allure.maven.version>
+
+    <!-- AspectJ — required by Allure to intercept test execution
+         and capture steps automatically -->
+    <aspectj.version>1.9.25.1</aspectj.version>
+
+    <!-- Gatling — performance/load testing tool. We use the
+         Maven plugin to run simulations as part of the build -->
+    <gatling.version>3.10.3</gatling.version>
+    <gatling.maven.version>4.9.6</gatling.maven.version>
+
+    <!-- Maven Surefire — controls how TestNG tests are executed
+         during the Maven build lifecycle -->
+    <surefire.version>3.2.5</surefire.version>
+
+    <!-- Maven Compiler Plugin version -->
+    <maven.compiler.plugin.version>3.12.1</maven.compiler.plugin.version>
+
+  </properties>
+
+  <!--
+      ============================================================
+      DEPENDENCIES
+      ============================================================
+      All libraries the framework needs to compile and run.
+      'test' scope means the dependency is only available during
+      test compilation and execution — not packaged into any
+      production artifact. This is correct for all test frameworks.
+      ============================================================
+  -->
+  <dependencies>
+
+    <!-- ========================================================
+         SELENIUM
+         Core browser automation library. selenium-java pulls in
+         support for all major browsers (Chrome, Firefox, Edge).
+         ======================================================== -->
+    <dependency>
+      <groupId>org.seleniumhq.selenium</groupId>
+      <artifactId>selenium-java</artifactId>
+      <version>${selenium.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- ========================================================
+         WEBDRIVER MANAGER
+         Handles browser driver binary management automatically.
+         Detects your installed browser version and downloads the
+         matching driver — eliminates a huge source of environment
+         setup friction.
+         ======================================================== -->
+    <dependency>
+      <groupId>io.github.bonigarcia</groupId>
+      <artifactId>webdrivermanager</artifactId>
+      <version>${webdrivermanager.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- ========================================================
+         CUCUMBER
+         Three modules are required:
+         - cucumber-java    : Core Cucumber engine for Java
+         - cucumber-testng  : Integrates Cucumber with TestNG runner
+         - cucumber-picocontainer : Enables DI between step classes
+         All three MUST be on the same version.
+         ======================================================== -->
+    <dependency>
+      <groupId>io.cucumber</groupId>
+      <artifactId>cucumber-java</artifactId>
+      <version>${cucumber.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>io.cucumber</groupId>
+      <artifactId>cucumber-testng</artifactId>
+      <version>${cucumber.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>io.cucumber</groupId>
+      <artifactId>cucumber-picocontainer</artifactId>
+      <version>${cucumber.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- ========================================================
+         TESTNG
+         The test runner. Provides annotations like @Test,
+         parallel execution config, and suite XML support.
+         cucumber-testng acts as the bridge between Cucumber
+         scenarios and TestNG's execution engine.
+         ======================================================== -->
+    <dependency>
+      <groupId>org.testng</groupId>
+      <artifactId>testng</artifactId>
+      <version>${testng.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- ========================================================
+         PICOCONTAINER
+         Lightweight DI container. When Cucumber detects that
+         multiple step definition classes share a constructor
+         parameter type, PicoContainer automatically instantiates
+         and injects the shared object. This is how we pass the
+         WebDriver and ScenarioContext between step classes
+         without any static state.
+         ======================================================== -->
+    <dependency>
+      <groupId>org.picocontainer</groupId>
+      <artifactId>picocontainer</artifactId>
+      <version>${picocontainer.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- ========================================================
+         REST ASSURED
+         Fluent Java DSL for API testing. Allows us to write
+         readable API tests in a Given/When/Then style that
+         mirrors our Cucumber feature files perfectly.
+         ======================================================== -->
+    <dependency>
+      <groupId>io.rest-assured</groupId>
+      <artifactId>rest-assured</artifactId>
+      <version>${restassured.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- JSON Schema Validation support for REST Assured —
+         allows us to validate API response structure, not
+         just values -->
+    <dependency>
+      <groupId>io.rest-assured</groupId>
+      <artifactId>json-schema-validator</artifactId>
+      <version>${restassured.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- ========================================================
+         JACKSON
+         Handles reading and parsing our JSON test data files.
+         ObjectMapper deserialises JSON into Java objects,
+         which we then decrypt and use in our tests.
+         ======================================================== -->
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>${jackson.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- ========================================================
+         ALLURE REPORTING
+         Two modules needed:
+         - allure-testng        : TestNG listener that captures
+                                  test results, steps, attachments
+         - allure-cucumber7-jvm : Captures Cucumber step details
+                                  and maps them to Allure steps
+         ======================================================== -->
+    <dependency>
+      <groupId>io.qameta.allure</groupId>
+      <artifactId>allure-testng</artifactId>
+      <version>${allure.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>io.qameta.allure</groupId>
+      <artifactId>allure-cucumber7-jvm</artifactId>
+      <version>${allure.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.aspectj</groupId>
+      <artifactId>aspectjweaver</artifactId>
+      <version>${aspectj.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+  </dependencies>
+
+  <!--
+      ============================================================
+      BUILD PLUGINS
+      ============================================================
+      Plugins control how Maven builds, tests, and reports on
+      your project. Each plugin hooks into a phase of the Maven
+      lifecycle (compile, test, package, verify, etc.)
+      ============================================================
+  -->
+  <build>
+
+    <testResources>
+      <testResource>
+        <directory>src/test/resources</directory>
+        <includes>
+          <include>**/*.properties</include>
+          <include>**/*.json</include>
+          <include>**/*.feature</include>
+        </includes>
+      </testResource>
+    </testResources>
+
+    <plugins>
+
+      <!-- ====================================================
+           MAVEN COMPILER PLUGIN
+           Ensures the project compiles with the correct Java
+           version as defined in our properties above.
+           ==================================================== -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>${maven.compiler.plugin.version}</version>
+        <configuration>
+          <source>${java.version}</source>
+          <target>${java.version}</target>
+          <encoding>UTF-8</encoding>
+        </configuration>
+      </plugin>
+
+      <!-- ====================================================
+           MAVEN SUREFIRE PLUGIN
+           Controls how TestNG tests are discovered and run
+           during the 'test' phase of the Maven lifecycle.
+
+           Key configuration points:
+           - argLine: Injects the AspectJ agent needed by Allure
+             to intercept test execution at the bytecode level
+           - systemPropertyVariables: Passes the Allure results
+             output path into the runtime
+           - includes: Tells Surefire to only run our
+             RunCukesTest runner class, not every class
+          ==================================================== -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>${surefire.version}</version>
+        <configuration>
+          <argLine>
+            -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
+          </argLine>
+          <systemPropertyVariables>
+            <allure.results.directory>
+              ${project.build.directory}/allure-results
+            </allure.results.directory>
+          </systemPropertyVariables>
+          <includes>
+            <include>**/RunCukesTest.java</include>
+          </includes>
+        </configuration>
+        <dependencies>
+          <!-- ========================================================
+        ASPECTJ WEAVER
+        Required by Allure to intercept test execution at the
+        bytecode level and capture steps automatically.
+        Declared here explicitly so Maven can resolve it both
+        as a standalone dependency AND when referenced inside
+        the Surefire plugin configuration above.
+        ======================================================== -->
+          <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>${aspectj.version}</version>
+          </dependency>
+        </dependencies>
+      </plugin>
+
+      <!-- ====================================================
+           ALLURE MAVEN PLUGIN
+           Generates the final HTML Allure report from the
+           raw JSON results captured during test execution.
+           Run 'mvn allure:report' after tests to generate,
+           or 'mvn allure:serve' to generate and open in browser.
+           ==================================================== -->
+      <plugin>
+        <groupId>io.qameta.allure</groupId>
+        <artifactId>allure-maven</artifactId>
+        <version>${allure.maven.version}</version>
+        <configuration>
+          <reportVersion>${allure.version}</reportVersion>
+          <resultsDirectory>
+            ${project.build.directory}/allure-results
+          </resultsDirectory>
+          <reportDirectory>
+            ${project.build.directory}/allure-report
+          </reportDirectory>
+        </configuration>
+      </plugin>
+
+      <!-- ====================================================
+           MAVEN JAVADOC PLUGIN
+           Generates JavaDoc HTML documentation from the
+           comments on our public POM and widget methods.
+           Run 'mvn javadoc:javadoc' to generate.
+           Output goes to target/site/apidocs/index.html
+           ==================================================== -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>3.6.3</version>
+        <configuration>
+          <show>public</show>
+          <nohelp>true</nohelp>
+          <charset>UTF-8</charset>
+          <encoding>UTF-8</encoding>
+          <docencoding>UTF-8</docencoding>
+          <!-- Only document public members — private
+               methods are excluded as per our convention -->
+          <source>${java.version}</source>
+        </configuration>
+      </plugin>
+
+      <!-- ====================================================
+           GATLING MAVEN PLUGIN
+           Runs Gatling performance simulations during the
+           'integration-test' phase of the Maven lifecycle.
+           Simulations live in src/test/java/performance/
+           Run with: mvn gatling:test
+           ==================================================== -->
+      <plugin>
+        <groupId>io.gatling</groupId>
+        <artifactId>gatling-maven-plugin</artifactId>
+        <version>${gatling.maven.version}</version>
+        <configuration>
+          <simulationClass>
+            performance.LoadSimulation
+          </simulationClass>
+        </configuration>
+      </plugin>
+
+    </plugins>
+  </build>
+
+  <!--
+      ============================================================
+      REPORTING
+      ============================================================
+      Configures what gets included when 'mvn site' is run.
+      This wires Allure into the Maven site generation lifecycle.
+      ============================================================
+  -->
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>io.qameta.allure</groupId>
+        <artifactId>allure-maven</artifactId>
+        <version>${allure.maven.version}</version>
+      </plugin>
+    </plugins>
+  </reporting>
+
+</project>
