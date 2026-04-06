@@ -27,6 +27,9 @@
 
 name: CI Pipeline
 
+permissions:
+  contents: write
+
 on:
   # Trigger on push to main and develop branches
   push:
@@ -254,7 +257,7 @@ jobs:
           keep_reports: 20
 
       - name: Publish Allure report to GitHub Pages
-        if: always()
+        if: always() && github.event_name != 'pull_request'
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}

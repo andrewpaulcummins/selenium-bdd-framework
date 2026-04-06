@@ -543,7 +543,13 @@ Test IDs are sequential and never reused. If a scenario is deleted, its ID is re
 
 Allure produces a rich interactive HTML report with step-by-step execution details, screenshots on failure, and historical trend data.
 
-**Generate and open in browser:**
+**View the hosted report on GitHub Pages (no local setup):**
+
+`https://andrewpaulcummins.github.io/selenium-bdd-framework/`
+
+Each successful CI run on `main` publishes the latest Allure HTML report to this URL.
+
+**Local generation (optional for debugging):**
 
 In IntelliJ open the Maven panel (**View → Tool Windows → Maven**), click **Execute Maven Goal** and run:
 
@@ -640,8 +646,14 @@ The pipeline is defined in `.github/workflows/ci.yml` and triggers automatically
 **Viewing results:**
 1. Go to the repository on GitHub
 2. Click the **Actions** tab
-3. Click the latest pipeline run
-4. Download `allure-results-chrome` artifact and run `allure serve` locally to view the report
+3. Click the latest pipeline run on `main`
+4. Open the GitHub Pages Allure site:
+   `https://andrewpaulcummins.github.io/selenium-bdd-framework/`
+
+**One-time GitHub Pages setup (repository admin):**
+1. Go to **Settings → Pages**
+2. Under **Build and deployment**, set **Source** to **Deploy from a branch**
+3. Set branch to **`gh-pages`** and folder to **`/ (root)`**
 
 **Running manually with custom tags:**
 1. Go to **Actions → CI Pipeline → Run workflow**
