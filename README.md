@@ -1,6 +1,6 @@
 # Selenium BDD Framework
 
-> An enterprise-grade test automation framework built with **Selenium 4**, **Cucumber 7**, **TestNG**, and **PicoContainer** — demonstrating production-ready BDD architecture, encrypted test data, dynamic page routing, and full CI/CD integration.
+> An enterprise-grade test automation framework built with **Selenium 4**, **Cucumber 7**, **TestNG**, and **PicoContainer** : demonstrating production-ready BDD architecture, encrypted test data, dynamic page routing, and full CI/CD integration.
 
 [![CI Pipeline](https://github.com/andrewpaulcummins/selenium-bdd-framework/actions/workflows/ci.yml/badge.svg)](https://github.com/andrewpaulcummins/selenium-bdd-framework/actions/workflows/ci.yml)
 ![Java](https://img.shields.io/badge/Java-17-orange)
@@ -35,18 +35,18 @@
 
 ## 1. Project Overview
 
-This framework was built to demonstrate senior SDET capability — not just the ability to write tests, but the ability to design and build a **maintainable, scalable, team-ready automation architecture** from scratch.
+This framework was built to demonstrate senior SDET capability : not just the ability to write tests, but the ability to design and build a **maintainable, scalable, team-ready automation architecture** from scratch.
 
 ### What makes this framework different
 
 Most automation frameworks are a collection of test scripts. This framework is a **layered architecture** where every design decision has a reason:
 
-- **BDD with Cucumber** — test scenarios written in plain English (Gherkin) that any team member can read, understand, and contribute to — not just engineers
-- **Dynamic step pattern** — a single Gherkin step handles every user type and every page, eliminating step explosion
-- **No static state** — PicoContainer dependency injection ensures complete test isolation and parallel execution safety
-- **Encrypted test data** — credentials stored in AES-encrypted JSON files; the decryption key never touches source control
-- **Fail fast** — every layer throws descriptive, actionable errors the moment something is wrong, not halfway through a test run
-- **Widget POMs** — reusable UI components extracted from page objects to prevent duplication across pages
+- **BDD with Cucumber** : test scenarios written in plain English (Gherkin) that any team member can read, understand, and contribute to : not just engineers
+- **Dynamic step pattern** : a single Gherkin step handles every user type and every page, eliminating step explosion
+- **No static state** : PicoContainer dependency injection ensures complete test isolation and parallel execution safety
+- **Encrypted test data** : credentials stored in AES-encrypted JSON files; the decryption key never touches source control
+- **Fail fast** : every layer throws descriptive, actionable errors the moment something is wrong, not halfway through a test run
+- **Widget POMs** : reusable UI components extracted from page objects to prevent duplication across pages
 
 ### Applications under test
 
@@ -65,7 +65,7 @@ Most automation frameworks are a collection of test scripts. This framework is a
 | Java | 17 (LTS) | Primary language |
 | Selenium WebDriver | 4.18.1 | Browser automation |
 | WebDriverManager | 5.7.0 | Automatic driver binary management |
-| Cucumber | 7.15.0 | BDD framework — Gherkin feature files |
+| Cucumber | 7.15.0 | BDD framework : Gherkin feature files |
 | TestNG | 7.9.0 | Test runner and execution engine |
 | PicoContainer | 2.15 | Dependency injection between step classes |
 | REST Assured | 5.4.0 | API test automation |
@@ -73,8 +73,8 @@ Most automation frameworks are a collection of test scripts. This framework is a
 | Allure | 2.25.0 | Rich interactive test reporting |
 | Gatling | 3.10.3 | Performance and load testing |
 | Maven | 3.9.x | Build tool and dependency management |
-| GitHub Actions | — | Cloud CI/CD pipeline |
-| Jenkins | — | Enterprise CI/CD pipeline |
+| GitHub Actions | : | Cloud CI/CD pipeline |
+| Jenkins | : | Enterprise CI/CD pipeline |
 
 ---
 
@@ -107,11 +107,10 @@ git --version      # Should show git version x.x.x
 The framework uses AES encryption to protect test credentials. A secret key must be set as an environment variable on your machine:
 
 ```bash
-# Windows (PowerShell — run as user level)
-[System.Environment]::SetEnvironmentVariable("TEST_DATA_SECRET_KEY", "YourKey1234567!", "User")
-
+# Windows (PowerShell : run as user level)
+[System.Environment]::SetEnvironmentVariable("TEST_DATA_SECRET_KEY", "YOUR_KEY_HERE", "User")
 # macOS / Linux
-export TEST_DATA_SECRET_KEY="YourKey1234567!"
+export TEST_DATA_SECRET_KEY="YOUR_KEY_HERE"
 ```
 
 > **Important:** The key must be exactly **16 characters** long. Contact the framework maintainer to obtain the correct key for your team.
@@ -146,8 +145,8 @@ cd selenium-bdd-framework
 1. Open IntelliJ IDEA
 2. Select **File → Open** and navigate to the cloned project folder
 3. Select the `pom.xml` file and click **Open as Project**
-4. IntelliJ will detect Maven and prompt you to load the project — click **Load Maven Project**
-5. Wait for Maven to download all dependencies (first time only — this may take a few minutes)
+4. IntelliJ will detect Maven and prompt you to load the project : click **Load Maven Project**
+5. Wait for Maven to download all dependencies (first time only : this may take a few minutes)
 
 ### Configure the run environment
 
@@ -173,7 +172,7 @@ The framework is built on a strict layered architecture. Each layer has a single
 ┌─────────────────────────────────────────────────────┐
 │                   FEATURE FILES                     │
 │         Plain English Gherkin scenarios             │
-│      Written by anyone — devs, QA, BAs, PMs        │
+│      Written by anyone : devs, QA, BAs, PMs        │
 └─────────────────────┬───────────────────────────────┘
                       │ Cucumber maps steps
 ┌─────────────────────▼───────────────────────────────┐
@@ -190,7 +189,7 @@ The framework is built on a strict layered architecture. Each layer has a single
        │              │
 ┌──────▼──────────────▼───────────────────────────────┐
 │                   PAGE POMs                         │
-│     One class per page — interactions only          │
+│     One class per page : interactions only          │
 │          No assertions, no navigation               │
 └─────────────────────┬───────────────────────────────┘
                       │ Delegates to
@@ -209,19 +208,19 @@ The framework is built on a strict layered architecture. Each layer has a single
 
 ### Design principles
 
-**No static state** — PicoContainer creates one `ScenarioContext` per scenario and injects it into every step definition class. The WebDriver instance lives in `ScenarioContext`, never in a static field. This makes parallel execution safe.
+**No static state** : PicoContainer creates one `ScenarioContext` per scenario and injects it into every step definition class. The WebDriver instance lives in `ScenarioContext`, never in a static field. This makes parallel execution safe.
 
-**Fail fast** — every class throws a descriptive `RuntimeException` at the earliest possible point if something is wrong. Missing environment variables, unknown page names, unrecognised user types — all surface immediately with clear messages.
+**Fail fast** : every class throws a descriptive `RuntimeException` at the earliest possible point if something is wrong. Missing environment variables, unknown page names, unrecognised user types : all surface immediately with clear messages.
 
-**Dynamic steps** — a single Gherkin step covers every user type and every page:
+**Dynamic steps** : a single Gherkin step covers every user type and every page:
 ```gherkin
 Given a "standard" user is on the "login" page
 Given a "locked" user is on the "inventory" page
 ```
 
-**Assertions at step definition level only** — page objects interact, step definitions assert. This separation means page objects are reusable across multiple step classes without coupling.
+**Assertions at step definition level only** : page objects interact, step definitions assert. This separation means page objects are reusable across multiple step classes without coupling.
 
-**JavaDocs on all public POM methods** — every public method on every Page POM and Widget POM is documented, making the framework self-explanatory for any team member.
+**JavaDocs on all public POM methods** : every public method on every Page POM and Widget POM is documented, making the framework self-explanatory for any team member.
 
 ---
 
@@ -284,13 +283,13 @@ All runtime configuration lives in `src/test/resources/config.properties`. No Ja
 ### Key configuration options
 
 ```properties
-# Browser — chrome | firefox | edge
+# Browser : chrome | firefox | edge
 browser=chrome
 
-# Headless mode — false for local debugging, true for CI
+# Headless mode : false for local debugging, true for CI
 headless=false
 
-# Environment — points all URLs at the correct environment
+# Environment : points all URLs at the correct environment
 environment=prod
 
 # Application URLs
@@ -298,7 +297,7 @@ ui.base.url=https://www.saucedemo.com
 api.base.url=https://reqres.in/api
 
 # Timeouts (seconds)
-implicit.wait=0       # Always 0 — explicit waits used throughout
+implicit.wait=0       # Always 0 : explicit waits used throughout
 explicit.wait=10      # Primary wait mechanism
 page.load.timeout=30
 
@@ -311,7 +310,7 @@ screenshot.on.failure=true
 
 ### Switching browsers
 
-Change the `browser` property to run against a different browser — no code changes required:
+Change the `browser` property to run against a different browser : no code changes required:
 
 ```properties
 browser=firefox
@@ -327,7 +326,7 @@ Set `headless=false` in `config.properties` for local debugging with a visible b
 
 ### Why encryption?
 
-Test credentials must never be stored in plain text in source control. Anyone with access to the repository would be able to read them. This framework uses **AES-128 encryption** (Advanced Encryption Standard) to encrypt all sensitive values before storing them in `users.json`. The decryption key is stored only as an environment variable — never in any file.
+Test credentials must never be stored in plain text in source control. Anyone with access to the repository would be able to read them. This framework uses **AES-128 encryption** (Advanced Encryption Standard) to encrypt all sensitive values before storing them in `users.json`. The decryption key is stored only as an environment variable : never in any file.
 
 ### How it works
 
@@ -347,8 +346,8 @@ Plain text password → used in test
 
 | User Type | Username | Behaviour |
 |---|---|---|
-| `standard` | standard_user | Normal access — full functionality |
-| `locked` | locked_out_user | Login blocked — error message shown |
+| `standard` | standard_user | Normal access : full functionality |
+| `locked` | locked_out_user | Login blocked : error message shown |
 | `problem` | problem_user | UI renders with visual bugs |
 | `performance_glitch` | performance_glitch_user | Artificial login delay |
 
@@ -374,7 +373,7 @@ Right-click `EncryptionRunner.java` in IntelliJ and select **Run**. The console 
 1. Navigate to `src/test/resources/features/`
 2. Create a new folder for your feature area (e.g. `checkout/`)
 3. Create a new `.feature` file (e.g. `checkout.feature`)
-4. Follow the tagging convention — see [Tagging Strategy](#11-tagging-strategy)
+4. Follow the tagging convention : see [Tagging Strategy](#11-tagging-strategy)
 
 ### Feature file structure
 
@@ -439,7 +438,7 @@ public HeaderWidget getHeader() {
 ### Adding new step definitions
 
 1. Create a new class in `src/test/java/.../stepdefs/`
-2. Declare `ScenarioContext` as a constructor parameter — PicoContainer handles injection
+2. Declare `ScenarioContext` as a constructor parameter : PicoContainer handles injection
 3. Add the new package to the `glue` path in `RunCukesTest.java`
 
 ```java
@@ -464,7 +463,7 @@ public class CheckoutSteps {
 2. Right-click anywhere in the file
 3. Select **Run 'RunCukesTest'**
 
-This is the only way tests should be run — no terminal commands required.
+This is the only way tests should be run : no terminal commands required.
 
 ### Changing which tests run
 
@@ -516,7 +515,7 @@ Every scenario has three types of tags applied at different levels:
 |---|---|---|
 | `@regression` | Full test suite | Nightly builds, pre-release |
 | `@sanity` | Core happy path only | Every PR, quick smoke check |
-| `@WIP` | Work in progress | Scenarios under development — excluded from CI |
+| `@WIP` | Work in progress | Scenarios under development : excluded from CI |
 
 ### Tag combinations
 
@@ -534,7 +533,7 @@ It will run when tags are: `@regression`, `@sanity`, `@login`, `@TC001`, `@regre
 
 ### Tag ID convention
 
-Test IDs are sequential and never reused. If a scenario is deleted, its ID is retired — not reassigned to a new scenario. This ensures traceability between test management tools and the codebase.
+Test IDs are sequential and never reused. If a scenario is deleted, its ID is retired : not reassigned to a new scenario. This ensures traceability between test management tools and the codebase.
 
 ---
 
@@ -731,7 +730,7 @@ Add `dryRun = true` to `@CucumberOptions` temporarily:
 )
 ```
 
-This prints all matched scenarios without executing them — useful for verifying tag expressions.
+This prints all matched scenarios without executing them : useful for verifying tag expressions.
 
 ---
 
@@ -745,9 +744,9 @@ You can write and contribute test scenarios without any Java knowledge. All you 
 
 1. Open the appropriate `.feature` file for the area you're testing
 2. Add a new `Scenario:` block following the existing pattern
-3. Use the existing steps — they are listed in the step definition files
-4. Apply the correct tags — see [Tagging Strategy](#11-tagging-strategy)
-5. Commit and push — the CI pipeline will pick it up automatically
+3. Use the existing steps : they are listed in the step definition files
+4. Apply the correct tags : see [Tagging Strategy](#11-tagging-strategy)
+5. Commit and push : the CI pipeline will pick it up automatically
 
 **Available steps (current):**
 
@@ -767,9 +766,9 @@ Then no error message should be displayed
 ### For developers
 
 **Branch convention:**
-- `main` — stable, deployable code only
-- `develop` — integration branch for features
-- `feature/TC-XXX-description` — individual feature branches
+- `main` : stable, deployable code only
+- `develop` : integration branch for features
+- `feature/TC-XXX-description` : individual feature branches
 
 **Adding a new page to the framework:**
 1. Create the Page POM in `poms/pages/`
@@ -794,11 +793,11 @@ Then no error message should be displayed
 
 - [ ] API testing module with REST Assured against ReqRes
 - [ ] Performance testing module with Gatling load simulations
-- [ ] Additional page coverage — Cart, Checkout, Order Complete
+- [ ] Additional page coverage : Cart, Checkout, Order Complete
 
 ### Planned
 
-- [ ] **Playwright for Java framework** — parallel project demonstrating the same architecture with Playwright instead of Selenium
+- [ ] **Playwright for Java framework** : parallel project demonstrating the same architecture with Playwright instead of Selenium
 - [ ] Database validation utilities
 - [ ] Email notification on pipeline failure
 - [ ] Test retry mechanism for flaky tests
@@ -807,7 +806,7 @@ Then no error message should be displayed
 ### Completed
 
 - [x] Core BDD framework with Selenium + Cucumber + TestNG
-- [x] PicoContainer dependency injection — zero static state
+- [x] PicoContainer dependency injection : zero static state
 - [x] AES-encrypted test data
 - [x] Dynamic user and page routing from feature file strings
 - [x] Page Object Model with Widget POM pattern
@@ -820,10 +819,10 @@ Then no error message should be displayed
 
 ## Author
 
-**Andrew Cummins** — SDET / Automation Engineer
+**Andrew Cummins** : SDET / Automation Engineer
 
 [![GitHub](https://img.shields.io/badge/GitHub-andrewpaulcummins-black?logo=github)](https://github.com/andrewpaulcummins)
 
 ---
 
-> *This framework was designed and built from scratch as a portfolio demonstration of enterprise-grade test automation architecture. Every design decision — from PicoContainer DI to AES encryption to the dynamic step pattern — reflects real-world production framework experience.*
+> *This framework was designed and built from scratch as a portfolio demonstration of enterprise-grade test automation architecture. Every design decision : from PicoContainer DI to AES encryption to the dynamic step pattern : reflects real-world production framework experience.*
