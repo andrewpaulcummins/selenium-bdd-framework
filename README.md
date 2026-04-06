@@ -629,7 +629,7 @@ Open `target/site/apidocs/index.html` in any browser. You will see:
 
 ### GitHub Actions
 
-The pipeline is defined in `.github/workflows/ci.yml` and triggers automatically on every push to `main` or `develop`, and on every pull request targeting `main`.
+The pipeline is defined in `.github/workflows/ci.yml` and triggers automatically on every push to `main` or `develop`, on every pull request targeting `main`, and on a daily schedule targeting ~06:00 UK local time (06:00 UTC in GMT months, 05:00 UTC in BST months).
 
 **Pipeline stages:**
 1. Checkout repository

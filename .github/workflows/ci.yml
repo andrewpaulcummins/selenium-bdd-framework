@@ -59,6 +59,14 @@ on:
           - chrome
           - firefox
 
+  # Run automatically once per day around 06:00 UK local time
+  # - Nov-Mar (GMT): 06:00 UTC
+  # - Apr-Oct (BST): 05:00 UTC
+  schedule:
+    - cron: '0 6 * 11-3 *'
+    - cron: '0 5 * 4-10 *'
+
+
 # =============================================================================
 # ENVIRONMENT VARIABLES
 # Available to all jobs and steps in this workflow.
