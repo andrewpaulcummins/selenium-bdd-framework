@@ -255,6 +255,14 @@ jobs:
       # the Actions run summary page after the job completes.
       # Always runs so the report is available even when tests fail.
       # -----------------------------------------------------------------------
+      - name: Restore previous Allure history from gh-pages
+        if: always()
+        continue-on-error: true
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          path: gh-pages
+
       - name: Generate Allure report
         if: always()
         uses: simple-elf/allure-report-action@master
@@ -262,6 +270,7 @@ jobs:
           allure_results: target/allure-results
           allure_report: target/allure-report
           allure_history: allure-history
+          gh_pages: gh-pages
           keep_reports: 20
 
       - name: Publish Allure report to GitHub Pages
@@ -270,7 +279,7 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
-          publish_dir: target/allure-report
+          publish_dir: allure-history
 
       # -----------------------------------------------------------------------
       # STEP 11: Output test summary

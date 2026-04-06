@@ -550,6 +550,7 @@ Allure produces a rich interactive HTML report with step-by-step execution detai
 **Hosted report:** [View latest Allure report](https://andrewpaulcummins.github.io/selenium-bdd-framework/)
 
 Each successful CI run on `main` publishes the latest Allure HTML report to this URL.
+The CI workflow also preserves Allure history on `gh-pages`, so trend charts build over time.
 
 **Local generation (optional for debugging):**
 
