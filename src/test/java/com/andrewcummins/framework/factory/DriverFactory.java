@@ -107,7 +107,9 @@ public class DriverFactory {
      * @return a configured {@code ChromeDriver} instance
      */
     private ChromeDriver createChromeDriver(boolean headless) {
-        WebDriverManager.chromedriver().setup();
+        // In CI environments, use the system ChromeDriver if available
+        // WebDriverManager will fall back to downloading if not found
+        WebDriverManager.chromedriver().clearDriverCache().setup();
 
         ChromeOptions options = new ChromeOptions();
 
@@ -117,6 +119,7 @@ public class DriverFactory {
 
         // Required for containerised Linux environments
         // (GitHub Actions, Docker, Jenkins agents)
+        options.addArguments("--headless=new");
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--disable-gpu");
@@ -124,7 +127,6 @@ public class DriverFactory {
         options.addArguments("--remote-allow-origins=*");
         options.addArguments("--disable-extensions");
         options.addArguments("--disable-setuid-sandbox");
-        options.addArguments("--single-process");
         options.addArguments("--ignore-certificate-errors");
 
         options.setExperimentalOption("excludeSwitches",

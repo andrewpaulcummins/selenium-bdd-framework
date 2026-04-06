@@ -134,15 +134,34 @@ jobs:
             ${{ runner.os }}-maven-
 
       # -----------------------------------------------------------------------
-      # STEP 4: Install Chrome
-      # GitHub Actions ubuntu-latest runners include Chrome by default.
-      # This step explicitly ensures the latest stable version is installed
-      # and outputs the version for debugging purposes.
+      # STEP 4: Setup Chrome
+      # Installs the stable version of Chrome using the browser-actions/setup-chrome
+      # action. This ensures a known, stable Chrome version is used rather than
+      # relying on whatever happens to be pre-installed on the runner.
       # -----------------------------------------------------------------------
-      - name: Verify Chrome installation
+      - name: Setup Chrome
+        uses: browser-actions/setup-chrome@v1
+        with:
+          chrome-version: stable
+
+      # -----------------------------------------------------------------------
+      # STEP 5: Setup ChromeDriver
+      # Installs a matching ChromeDriver for the installed Chrome version.
+      # This replaces WebDriverManager's runtime download and ensures the
+      # driver and browser versions are always in sync in CI.
+      # -----------------------------------------------------------------------
+      - name: Setup ChromeDriver
+        uses: nanasess/setup-chromedriver@v2
+
+      # -----------------------------------------------------------------------
+      # STEP 6: Verify Chrome and ChromeDriver versions
+      # Outputs the installed versions for debugging purposes.
+      # -----------------------------------------------------------------------
+      - name: Verify Chrome and ChromeDriver
         run: |
           google-chrome --version
-          echo "Chrome is ready for headless testing"
+          chromedriver --version
+          echo "Chrome and ChromeDriver are ready"
 
       # -----------------------------------------------------------------------
       # STEP 5: Compile framework
@@ -219,7 +238,31 @@ jobs:
           retention-days: 7
 
       # -----------------------------------------------------------------------
-      # STEP 10: Output test summary
+      # STEP 10: Generate and publish Allure report
+      # Generates the final interactive HTML Allure report and publishes
+      # it as a GitHub Pages artifact. The report is accessible from
+      # the Actions run summary page after the job completes.
+      # Always runs so the report is available even when tests fail.
+      # -----------------------------------------------------------------------
+      - name: Generate Allure report
+        if: always()
+        uses: simple-elf/allure-report-action@master
+        with:
+          allure_results: target/allure-results
+          allure_report: target/allure-report
+          allure_history: allure-history
+          keep_reports: 20
+
+      - name: Publish Allure report to GitHub Pages
+        if: always()
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: target/allure-report
+
+      # -----------------------------------------------------------------------
+      # STEP 11: Output test summary
       # Prints a summary of the pipeline run to the Actions console.
       # Useful for a quick pass/fail overview without opening the full report.
       # -----------------------------------------------------------------------
