@@ -112,32 +112,24 @@ public class DriverFactory {
         ChromeOptions options = new ChromeOptions();
 
         if (headless) {
-            // --headless=new is the modern headless flag introduced in Chrome 112.
-            // The legacy --headless flag is deprecated and behaves differently.
             options.addArguments("--headless=new");
         }
 
-        // Disables the sandbox security model — required in Linux CI/CD
-        // environments (Docker, GitHub Actions) where Chrome runs as root.
+        // Required for containerised Linux environments
+        // (GitHub Actions, Docker, Jenkins agents)
         options.addArguments("--no-sandbox");
-
-        // Disables /dev/shm usage — prevents crashes in Docker containers
-        // where shared memory is limited.
         options.addArguments("--disable-dev-shm-usage");
+        options.addArguments("--disable-gpu");
+        options.addArguments("--window-size=1920,1080");
+        options.addArguments("--remote-allow-origins=*");
+        options.addArguments("--disable-extensions");
+        options.addArguments("--disable-setuid-sandbox");
+        options.addArguments("--single-process");
+        options.addArguments("--ignore-certificate-errors");
 
-        // Suppresses "Chrome is being controlled by automated software" banner
-        // and other automation-related UI noise.
         options.setExperimentalOption("excludeSwitches",
                 new String[]{"enable-automation"});
         options.addArguments("--disable-blink-features=AutomationControlled");
-
-        // Disable GPU acceleration — not needed for automated testing and
-        // can cause rendering issues in headless/CI environments.
-        options.addArguments("--disable-gpu");
-
-        // Set a consistent window size for reproducible UI interactions
-        // and screenshot dimensions across all environments.
-        options.addArguments("--window-size=1920,1080");
 
         return new ChromeDriver(options);
     }
