@@ -1,0 +1,28 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"  As a user of the SauceDemo application
+  I want to be able to log in with valid credentials
+  So that I can access the product inventory","1573","User can log in after correcting invalid credentials","","Mon Apr 06 19:24:41 UTC 2026","passed","Mon Apr 06 19:24:43 UTC 2026","","Login functionality","User can log in after correcting invalid credentials",""
+"  As a user of the SauceDemo application
+  I want to be able to log in with valid credentials
+  So that I can access the product inventory","10933","Standard user can log in successfully","","Mon Apr 06 19:24:16 UTC 2026","passed","Mon Apr 06 19:24:27 UTC 2026","","Login functionality","Standard user can log in successfully",""
+"  As a user of the SauceDemo application
+  I want to be able to log in with valid credentials
+  So that I can access the product inventory","1204","User cannot log in with empty password","","Mon Apr 06 19:24:31 UTC 2026","passed","Mon Apr 06 19:24:32 UTC 2026","","Login functionality","User cannot log in with empty password",""
+"  As a user of the SauceDemo application
+  I want to be able to log in with valid credentials
+  So that I can access the product inventory","1112","User cannot log in with empty username","","Mon Apr 06 19:24:30 UTC 2026","passed","Mon Apr 06 19:24:31 UTC 2026","","Login functionality","User cannot log in with empty username",""
+"  As a user of the SauceDemo application
+  I want to be able to log in with valid credentials
+  So that I can access the product inventory","1359","Problem user can log in successfully","","Mon Apr 06 19:24:32 UTC 2026","passed","Mon Apr 06 19:24:34 UTC 2026","","Login functionality","Problem user can log in successfully",""
+"  As a user of the SauceDemo application
+  I want to be able to log in with valid credentials
+  So that I can access the product inventory","6377","Performance glitch user can log in successfully","","Mon Apr 06 19:24:34 UTC 2026","passed","Mon Apr 06 19:24:40 UTC 2026","","Login functionality","Performance glitch user can log in successfully",""
+"  As a user of the SauceDemo application
+  I want to be able to log in with valid credentials
+  So that I can access the product inventory","1324","Locked out user cannot log in","","Mon Apr 06 19:24:29 UTC 2026","passed","Mon Apr 06 19:24:30 UTC 2026","","Login functionality","Locked out user cannot log in",""
+"  As a user of the SauceDemo application
+  I want to be able to log in with valid credentials
+  So that I can access the product inventory","942","Error message is displayed when both fields are empty","","Mon Apr 06 19:24:40 UTC 2026","passed","Mon Apr 06 19:24:41 UTC 2026","","Login functionality","Error message is displayed when both fields are empty",""
+"  As a user of the SauceDemo application
+  I want to be able to log in with valid credentials
+  So that I can access the product inventory","1482","Standard user lands on inventory page after login","","Mon Apr 06 19:24:27 UTC 2026","passed","Mon Apr 06 19:24:29 UTC 2026","","Login functionality","Standard user lands on inventory page after login",""
