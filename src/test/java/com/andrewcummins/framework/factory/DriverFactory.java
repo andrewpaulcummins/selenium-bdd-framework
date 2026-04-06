@@ -129,7 +129,7 @@ public class DriverFactory {
 
         // Required for containerised Linux environments
         // (GitHub Actions, Docker, Jenkins agents)
-//        options.addArguments("--headless=new");
+        options.addArguments("--headless=new");
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--disable-gpu");
