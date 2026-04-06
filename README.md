@@ -2,7 +2,9 @@
 
 > An enterprise-grade test automation framework built with **Selenium 4**, **Cucumber 7**, **TestNG**, and **PicoContainer** : demonstrating production-ready BDD architecture, encrypted test data, dynamic page routing, and full CI/CD integration.
 
-> **Live Test Report:** https://andrewpaulcummins.github.io/selenium-bdd-framework/
+## Quick Links
+
+[![Live Allure Report](https://img.shields.io/badge/Live%20Allure%20Report-View%20Now-8A2BE2?logo=allure)](https://andrewpaulcummins.github.io/selenium-bdd-framework/)
 
 [![CI Pipeline](https://github.com/andrewpaulcummins/selenium-bdd-framework/actions/workflows/ci.yml/badge.svg)](https://github.com/andrewpaulcummins/selenium-bdd-framework/actions/workflows/ci.yml)
 ![Java](https://img.shields.io/badge/Java-17-orange)
@@ -545,12 +547,7 @@ Test IDs are sequential and never reused. If a scenario is deleted, its ID is re
 
 Allure produces a rich interactive HTML report with step-by-step execution details, screenshots on failure, and historical trend data.
 
-**For interviewers (quick access):** open the latest hosted report here:
-`https://andrewpaulcummins.github.io/selenium-bdd-framework/`
-
-**View the hosted report on GitHub Pages (no local setup):**
-
-`https://andrewpaulcummins.github.io/selenium-bdd-framework/`
+**Hosted report:** [View latest Allure report](https://andrewpaulcummins.github.io/selenium-bdd-framework/)
 
 Each successful CI run on `main` publishes the latest Allure HTML report to this URL.
 
