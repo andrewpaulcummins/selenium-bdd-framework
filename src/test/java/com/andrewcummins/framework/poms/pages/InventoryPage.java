@@ -299,6 +299,21 @@ public class InventoryPage extends BasePage {
         return isDisplayed(pageTitle);
     }
 
+    /**
+     * Waits until the shopping cart badge is no longer present in the DOM.
+     *
+     * <p>Used after removing an item from the cart to ensure the badge has
+     * fully disappeared before asserting its absence. SauceDemo updates the
+     * badge asynchronously, so an immediate {@code isDisplayed} check can
+     * return {@code true} briefly after the last item is removed.</p>
+     */
+    public void waitForCartBadgeToDisappear() {
+        wait.until(
+                org.openqa.selenium.support.ui.ExpectedConditions
+                        .invisibilityOfElementLocated(org.openqa.selenium.By.cssSelector(".shopping_cart_badge"))
+        );
+    }
+
     // =========================================================================
     // PRIVATE HELPER METHODS
     // =========================================================================

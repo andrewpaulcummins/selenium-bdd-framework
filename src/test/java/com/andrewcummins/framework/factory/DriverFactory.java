@@ -11,6 +11,8 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 
 import java.time.Duration;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Factory class responsible for creating and configuring {@code WebDriver} instances.
@@ -113,13 +115,21 @@ public class DriverFactory {
 
         ChromeOptions options = new ChromeOptions();
 
+        Map<String, Object> prefs = new HashMap<>();
+        prefs.put("credentials_enable_service", false);              // Disable save-password bubble
+        prefs.put("profile.password_manager_enabled", false);        // Disable password manager
+        prefs.put("profile.password_manager_leak_detection", false); // Disable breach warning
+
+        options.setExperimentalOption("prefs", prefs);
+
+
         if (headless) {
             options.addArguments("--headless=new");
         }
 
         // Required for containerised Linux environments
         // (GitHub Actions, Docker, Jenkins agents)
-        options.addArguments("--headless=new");
+//        options.addArguments("--headless=new");
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--disable-gpu");

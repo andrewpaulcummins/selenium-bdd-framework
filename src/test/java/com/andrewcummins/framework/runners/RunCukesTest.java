@@ -58,9 +58,13 @@ import org.testng.annotations.DataProvider;
         //   @regression  — full regression suite
         //   @sanity      — quick smoke suite
         //   @login       — login functional suite
+        //   @inventory   — inventory functional suite
+        //   @cart        — cart functional suite
+        //   @checkout    — checkout functional suite
+        //   @navigation  — navigation functional suite
         //   @TC001       — single test by ID
         //   not @WIP     — exclude work-in-progress tests
-        tags = "@regression or @sanity",
+        tags = "@TC031",
 
         // Plugins configure reporting output.
         // - pretty        : readable console output with colours
