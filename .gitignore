@@ -45,3 +45,6 @@ screenshots/
 *.env
 .env
 test-output/
+
+# Copilot / IDE local state
+copilotDiffState.xml
