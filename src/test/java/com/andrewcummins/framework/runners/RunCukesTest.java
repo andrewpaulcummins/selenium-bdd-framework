@@ -64,7 +64,7 @@ import org.testng.annotations.DataProvider;
         //   @navigation  — navigation functional suite
         //   @TC001       — single test by ID
         //   not @WIP     — exclude work-in-progress tests
-        tags = "@TC031",
+        tags = "@TC032",
 
         // Plugins configure reporting output.
         // - pretty        : readable console output with colours

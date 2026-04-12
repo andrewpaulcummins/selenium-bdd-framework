@@ -118,23 +118,27 @@ public class HeaderWidget extends BasePage {
     /**
      * Opens the burger menu sidebar by clicking the hamburger icon.
      *
-     * <p>Waits for the menu button to be clickable before clicking.
-     * After clicking, use {@link #isMenuOpen()} to verify the menu
-     * has opened before interacting with menu items.</p>
+     * <p>Waits for the menu button to be clickable before clicking, then
+     * waits for the close button to become visible, confirming the slide-in
+     * animation has completed before the step returns. This prevents a race
+     * condition where {@link #isMenuOpen()} is called before the CSS transition
+     * has finished.</p>
      */
     public void openBurgerMenu() {
         click(burgerMenuButton);
+        waitForVisibility(burgerMenuCloseButton);
     }
 
     /**
      * Closes the burger menu sidebar by clicking the X close button.
      *
-     * <p>Only call this when the burger menu is already open. Calling
-     * it when the menu is closed will result in a {@code TimeoutException}
-     * as the close button is not visible when the menu is closed.</p>
+     * <p>Only call this when the burger menu is already open. After clicking,
+     * waits for the close button to become invisible, confirming the slide-out
+     * animation has completed before the step returns.</p>
      */
     public void closeBurgerMenu() {
         click(burgerMenuCloseButton);
+        waitForInvisibility(burgerMenuCloseButton);
     }
 
     /**
