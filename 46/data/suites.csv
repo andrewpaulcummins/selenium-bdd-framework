@@ -1,0 +1,103 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"  As a user of the SauceDemo application
+  I want to be able to log in with valid credentials
+  So that I can access the product inventory","1267","Problem user can log in successfully","","Thu May 07 07:39:13 UTC 2026","passed","Thu May 07 07:39:14 UTC 2026","","Login functionality","Problem user can log in successfully",""
+"  As a logged-in user
+  I want to browse and interact with the product inventory
+  So that I can find products and manage my shopping cart","1251","Products are sorted alphabetically A to Z by default","","Thu May 07 07:38:56 UTC 2026","passed","Thu May 07 07:38:57 UTC 2026","","Inventory page functionality","Products are sorted alphabetically A to Z by default",""
+"  As a logged-in user
+  I want to browse and interact with the product inventory
+  So that I can find products and manage my shopping cart","1312","User can navigate to a product detail page","","Thu May 07 07:39:06 UTC 2026","passed","Thu May 07 07:39:07 UTC 2026","","Inventory page functionality","User can navigate to a product detail page",""
+"  As a logged-in user
+  I want to complete the checkout process
+  So that I can place an order for the products in my cart","2014","User can complete a full checkout and receive an order confirmation","","Thu May 07 07:38:44 UTC 2026","passed","Thu May 07 07:38:46 UTC 2026","","Checkout functionality","User can complete a full checkout and receive an order confirmation",""
+"  As a logged-in user
+  I want to complete the checkout process
+  So that I can place an order for the products in my cart","1965","Checkout overview displays the correct order summary","","Thu May 07 07:38:46 UTC 2026","passed","Thu May 07 07:38:48 UTC 2026","","Checkout functionality","Checkout overview displays the correct order summary",""
+"  As a logged-in user
+  I want to manage items in my shopping cart
+  So that I can review my selection before placing an order","3588","Cart page displays items that have been added from inventory","","Thu May 07 07:38:34 UTC 2026","passed","Thu May 07 07:38:37 UTC 2026","","Shopping cart functionality","Cart page displays items that have been added from inventory",""
+"  As a user of the SauceDemo application
+  I want to be able to log in with valid credentials
+  So that I can access the product inventory","928","Error message is displayed when both fields are empty","","Thu May 07 07:39:20 UTC 2026","passed","Thu May 07 07:39:21 UTC 2026","","Login functionality","Error message is displayed when both fields are empty",""
+"  As a user of the SauceDemo application
+  I want to be able to log in with valid credentials
+  So that I can access the product inventory","6235","Performance glitch user can log in successfully","","Thu May 07 07:39:14 UTC 2026","passed","Thu May 07 07:39:20 UTC 2026","","Login functionality","Performance glitch user can log in successfully",""
+"  As a logged-in user
+  I want to manage items in my shopping cart
+  So that I can review my selection before placing an order","1560","User can remove an item from the cart page","","Thu May 07 07:38:39 UTC 2026","passed","Thu May 07 07:38:41 UTC 2026","","Shopping cart functionality","User can remove an item from the cart page",""
+"  As a user of the SauceDemo application
+  I want to be able to log in with valid credentials
+  So that I can access the product inventory","1332","Standard user lands on inventory page after login","","Thu May 07 07:39:08 UTC 2026","passed","Thu May 07 07:39:10 UTC 2026","","Login functionality","Standard user lands on inventory page after login",""
+"  As a user of the SauceDemo application
+  I want to be able to log in with valid credentials
+  So that I can access the product inventory","973","User cannot log in with empty username","","Thu May 07 07:39:11 UTC 2026","passed","Thu May 07 07:39:12 UTC 2026","","Login functionality","User cannot log in with empty username",""
+"  As a logged-in user
+  I want to navigate between pages using the header
+  So that I can access all areas of the application","1247","Application logo is displayed in the header on the inventory page","","Thu May 07 07:39:30 UTC 2026","passed","Thu May 07 07:39:32 UTC 2026","","Header navigation functionality","Application logo is displayed in the header on the inventory page",""
+"  As a user of the SauceDemo application
+  I want to be able to log in with valid credentials
+  So that I can access the product inventory","1101","User cannot log in with empty password","","Thu May 07 07:39:12 UTC 2026","passed","Thu May 07 07:39:13 UTC 2026","","Login functionality","User cannot log in with empty password",""
+"  As a logged-in user
+  I want to complete the checkout process
+  So that I can place an order for the products in my cart","1644","User can cancel checkout and return to the cart","","Thu May 07 07:38:53 UTC 2026","passed","Thu May 07 07:38:55 UTC 2026","","Checkout functionality","User can cancel checkout and return to the cart",""
+"  As a logged-in user
+  I want to browse and interact with the product inventory
+  So that I can find products and manage my shopping cart","1195","Inventory page displays all six products","","Thu May 07 07:38:55 UTC 2026","passed","Thu May 07 07:38:56 UTC 2026","","Inventory page functionality","Inventory page displays all six products",""
+"  As a logged-in user
+  I want to complete the checkout process
+  So that I can place an order for the products in my cart","1599","Checkout form requires a first name","","Thu May 07 07:38:48 UTC 2026","passed","Thu May 07 07:38:49 UTC 2026","","Checkout functionality","Checkout form requires a first name",""
+"  As a logged-in user
+  I want to navigate between pages using the header
+  So that I can access all areas of the application","2436","User can open and close the burger menu","","Thu May 07 07:39:25 UTC 2026","passed","Thu May 07 07:39:27 UTC 2026","","Header navigation functionality","User can open and close the burger menu",""
+"  As a user of the SauceDemo application
+  I want to be able to log in with valid credentials
+  So that I can access the product inventory","1521","User can log in after correcting invalid credentials","","Thu May 07 07:39:21 UTC 2026","passed","Thu May 07 07:39:23 UTC 2026","","Login functionality","User can log in after correcting invalid credentials",""
+"  As a logged-in user
+  I want to browse and interact with the product inventory
+  So that I can find products and manage my shopping cart","1457","Adding multiple products shows the correct cart badge count","","Thu May 07 07:39:03 UTC 2026","passed","Thu May 07 07:39:04 UTC 2026","","Inventory page functionality","Adding multiple products shows the correct cart badge count",""
+"  As a logged-in user
+  I want to manage items in my shopping cart
+  So that I can review my selection before placing an order","1418","Continue shopping returns the user to the inventory page","","Thu May 07 07:38:41 UTC 2026","passed","Thu May 07 07:38:42 UTC 2026","","Shopping cart functionality","Continue shopping returns the user to the inventory page",""
+"  As a logged-in user
+  I want to navigate between pages using the header
+  So that I can access all areas of the application","1281","Cart icon in the header navigates to the cart page","","Thu May 07 07:39:29 UTC 2026","passed","Thu May 07 07:39:30 UTC 2026","","Header navigation functionality","Cart icon in the header navigates to the cart page",""
+"  As a logged-in user
+  I want to navigate between pages using the header
+  So that I can access all areas of the application","1868","User can log out via the burger menu","","Thu May 07 07:39:23 UTC 2026","passed","Thu May 07 07:39:25 UTC 2026","","Header navigation functionality","User can log out via the burger menu",""
+"  As a logged-in user
+  I want to manage items in my shopping cart
+  So that I can review my selection before placing an order","1496","User can proceed to checkout from the cart","","Thu May 07 07:38:42 UTC 2026","passed","Thu May 07 07:38:44 UTC 2026","","Shopping cart functionality","User can proceed to checkout from the cart",""
+"  As a logged-in user
+  I want to browse and interact with the product inventory
+  So that I can find products and manage my shopping cart","1352","User can sort products by price low to high","","Thu May 07 07:38:59 UTC 2026","passed","Thu May 07 07:39:00 UTC 2026","","Inventory page functionality","User can sort products by price low to high",""
+"  As a logged-in user
+  I want to browse and interact with the product inventory
+  So that I can find products and manage my shopping cart","1386","Removing a product from the inventory page clears the cart badge","","Thu May 07 07:39:04 UTC 2026","passed","Thu May 07 07:39:06 UTC 2026","","Inventory page functionality","Removing a product from the inventory page clears the cart badge",""
+"  As a logged-in user
+  I want to navigate between pages using the header
+  So that I can access all areas of the application","2058","All Items link in the burger menu navigates to the inventory page","","Thu May 07 07:39:27 UTC 2026","passed","Thu May 07 07:39:29 UTC 2026","","Header navigation functionality","All Items link in the burger menu navigates to the inventory page",""
+"  As a user of the SauceDemo application
+  I want to be able to log in with valid credentials
+  So that I can access the product inventory","1224","Locked out user cannot log in","","Thu May 07 07:39:10 UTC 2026","passed","Thu May 07 07:39:11 UTC 2026","","Login functionality","Locked out user cannot log in",""
+"  As a logged-in user
+  I want to browse and interact with the product inventory
+  So that I can find products and manage my shopping cart","1331","Adding a product to the cart updates the cart badge","","Thu May 07 07:39:01 UTC 2026","passed","Thu May 07 07:39:03 UTC 2026","","Inventory page functionality","Adding a product to the cart updates the cart badge",""
+"  As a logged-in user
+  I want to complete the checkout process
+  So that I can place an order for the products in my cart","1715","Checkout form requires a last name","","Thu May 07 07:38:49 UTC 2026","passed","Thu May 07 07:38:51 UTC 2026","","Checkout functionality","Checkout form requires a last name",""
+"  As a user of the SauceDemo application
+  I want to be able to log in with valid credentials
+  So that I can access the product inventory","1236","Standard user can log in successfully","","Thu May 07 07:39:07 UTC 2026","passed","Thu May 07 07:39:08 UTC 2026","","Login functionality","Standard user can log in successfully",""
+"  As a logged-in user
+  I want to complete the checkout process
+  So that I can place an order for the products in my cart","2263","Checkout form requires a postal code","","Thu May 07 07:38:51 UTC 2026","passed","Thu May 07 07:38:53 UTC 2026","","Checkout functionality","Checkout form requires a postal code",""
+"  As a logged-in user
+  I want to browse and interact with the product inventory
+  So that I can find products and manage my shopping cart","1340","User can sort products by name Z to A","","Thu May 07 07:38:57 UTC 2026","passed","Thu May 07 07:38:59 UTC 2026","","Inventory page functionality","User can sort products by name Z to A",""
+"  As a logged-in user
+  I want to manage items in my shopping cart
+  So that I can review my selection before placing an order","1839","Cart page is empty when no items have been added","","Thu May 07 07:38:37 UTC 2026","passed","Thu May 07 07:38:39 UTC 2026","","Shopping cart functionality","Cart page is empty when no items have been added",""
+"  As a logged-in user
+  I want to browse and interact with the product inventory
+  So that I can find products and manage my shopping cart","1378","User can sort products by price high to low","","Thu May 07 07:39:00 UTC 2026","passed","Thu May 07 07:39:01 UTC 2026","","Inventory page functionality","User can sort products by price high to low",""
